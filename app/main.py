@@ -39,6 +39,7 @@ class STask(BaseModel):
     user_id: int
     title: str
     priority: str
+    completed: bool
     date_to: Optional[datetime.date] = None
     subtasks: List[SubTask] = []  # Список подзадач, по умолчанию пуст
 
