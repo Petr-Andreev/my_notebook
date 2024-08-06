@@ -1,7 +1,9 @@
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
-
+from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey
+from datetime import datetime, timedelta
 from app.database import Base
 
+def default_tomorrow():
+    return datetime.utcnow().date() + timedelta(days=1)  # Возвращаем завтрашнюю дату
 
 class Tasks(Base):
     __tablename__ = 'tasks'
@@ -10,7 +12,7 @@ class Tasks(Base):
     user_id = Column(ForeignKey('users.id'), nullable=False)  # Столбец внешнего ключа
     title = Column(String, nullable=False)
     priority = Column(String, default="medium")
-    date_to = Column(DateTime)
+    date_to = Column(Date, default=default_tomorrow)  # Устанавливаем значение по умолчанию на завтрашнюю дату
     completed = Column(Boolean, default=False)
 
 
@@ -20,4 +22,5 @@ class SubTasks(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     task_id = Column(ForeignKey('tasks.id'), nullable=False)  # Столбец внешнего ключа
     title = Column(String, nullable=False)
+    priority = Column(String, default="medium")
     completed = Column(Boolean, default=False)
