@@ -3,10 +3,12 @@ from typing import List, Optional
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
+from app.tasks.router import router as router_tasks
 
 app = FastAPI(
     title='My Notebook'
 )
+app.include_router(router_tasks)
 
 users = [
     {"id": 1, 'role': 'admin', 'name': 'Petr'},
@@ -51,6 +53,7 @@ tasks_list = [
         user_id=1,
         title="Покормить кота",
         priority="medium",
+        completed=False,
         date_to=datetime.date(2024, 8, 6),
         subtasks=[
             SubTask(id=1, title="Купить корм", completed=False),
@@ -62,6 +65,7 @@ tasks_list = [
         user_id=1,
         title="Почистить зубы",
         priority="low",
+        completed=False,
         date_to=datetime.date(2024, 8, 6),
         subtasks=[]
     ),
@@ -70,6 +74,7 @@ tasks_list = [
         user_id=2,
         title="Накраситься",
         priority="low",
+        completed=False,
         date_to=datetime.date(2024, 8, 6),
         subtasks=[
             SubTask(id=1, title="Выбрать цвет", completed=False)
@@ -80,6 +85,7 @@ tasks_list = [
         user_id=2,
         title="Подать документы на отпуск",
         priority="high",
+        completed=False,
         date_to=datetime.date(2024, 8, 20),
         subtasks=[
             SubTask(id=1, title="Заполнить документ", completed=False),
@@ -91,6 +97,7 @@ tasks_list = [
         user_id=3,
         title="Провести митинг",
         priority="low",
+        completed=False,
         date_to=datetime.date(2024, 8, 10),
         subtasks=[
             SubTask(id=1, title="Созвониться с коллегами", completed=False)
@@ -101,6 +108,7 @@ tasks_list = [
         user_id=3,
         title="Пообедать",
         priority="low",
+        completed=False,
         date_to=datetime.date(2024, 8, 10),
         subtasks=[
             SubTask(id=1, title="Купить еды в магазине", completed=False)
@@ -111,6 +119,7 @@ tasks_list = [
         user_id=3,
         title="Собрать статистику работы сотрудников",
         priority="low",
+        completed=False,
         date_to=datetime.date(2024, 8, 29),
         subtasks=[
             SubTask(id=1, title="Опросить каждого работника", completed=False),
