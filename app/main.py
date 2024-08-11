@@ -4,11 +4,13 @@ import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
 from app.tasks.router import router as router_tasks
+from app.subtasks.router import router as router_subtasks
 
 app = FastAPI(
     title='My Notebook'
 )
 app.include_router(router_tasks)
+app.include_router(router_subtasks)
 
 users = [
     {"id": 1, 'role': 'admin', 'name': 'Petr'},
@@ -130,8 +132,8 @@ tasks_list = [
 ]
 
 
-@app.get("/tasks")
-def get_tasks(user_id: int, title: Optional[str] = None, priority: Optional[str] = None) -> List[STask]:
+@app.get("/tasks_2")
+def get_tasks_2(user_id: int, title: Optional[str] = None, priority: Optional[str] = None) -> List[STask]:
     # Фильтрация задач по user_id
     filtered_tasks = [task for task in tasks_list if task.user_id == user_id]
 

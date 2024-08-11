@@ -1,10 +1,10 @@
 INSERT INTO tasks (user_id, title, priority, date_to, completed) VALUES
-(1, 'Покормить кота', DEFAULT, DEFAULT, DEFAULT),
+(1, 'Покормить кота', DEFAULT, DEFAULT, FALSE),
 (1, 'Почистить зубы', 'low', DEFAULT, DEFAULT),
 (2, 'Накраситься', 'low', DEFAULT, DEFAULT),
 (2, 'Подать документы на отпуск', 'high', DEFAULT, DEFAULT),
 (3, 'Провести митинг', 'low', DEFAULT, DEFAULT),
-(3, 'Пообедать', DEFAULT, DEFAULT, DEFAULT),
+(3, 'Пообедать', 'high', DEFAULT, DEFAULT),
 (3, 'Собрать статистику работы сотрудников', 'low', DEFAULT, DEFAULT);
 
 INSERT INTO subtasks (task_id, title, priority, completed) VALUES

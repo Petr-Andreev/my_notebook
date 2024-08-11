@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from app.tasks.service import TaskService
 
 router = APIRouter(
     prefix='/tasks',
@@ -6,11 +7,6 @@ router = APIRouter(
 )
 
 
-@router.get('')
-def get_tasks_2():
-    pass
-
-
-@router.get('/{task_id}')
-def get_task(task_id):
-    pass
+@router.get("")
+async def get_tasks():
+    return await TaskService.find_all()
