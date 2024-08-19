@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status, Response
 
-from app.users.auth import get_password_hash
+from app.users.auth import get_password_hash, authenticate_user, create_access_token
 from app.users.dao import UsersDAO
-from app.users.schemas import SUserRegister
+from app.users.schemas import SUserRegister, SUserLogin
 
 router = APIRouter(
     prefix='/auth',
@@ -21,3 +21,13 @@ async def register_user(user_data: SUserRegister):
         last_name=user_data.last_name,
         email=user_data.email,
         hashed_password=hashed_password)
+
+
+@router.post("/login")
+async def login_user(response: Response, user_data: SUserLogin):
+    user = await authenticate_user(user_data.email, user_data.password)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Неверный логин или пароль.')
+    access_token = create_access_token({"sub": user.id})
+    response.set_cookie('notebook_access_token', access_token, httponly=True)
+    return access_token

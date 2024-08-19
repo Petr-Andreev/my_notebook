@@ -6,3 +6,8 @@ class SUserRegister(BaseModel):
     last_name: str
     email: EmailStr
     password: str
+
+
+class SUserLogin(BaseModel):
+    email: EmailStr
+    password: str
