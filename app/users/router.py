@@ -1,8 +1,10 @@
-from fastapi import APIRouter, HTTPException, status, Response
+from fastapi import APIRouter, HTTPException, status, Response, Depends
 
 from app.users.auth import get_password_hash, authenticate_user, create_access_token
 from app.users.dao import UsersDAO
+from app.users.dependencies import get_current_user, get_current_admin_user
 from app.users.schemas import SUserRegister, SUserLogin
+from app.users.users import Users
 
 router = APIRouter(
     prefix='/auth',
@@ -31,3 +33,19 @@ async def login_user(response: Response, user_data: SUserLogin):
     access_token = create_access_token({"sub": str(user.id)})
     response.set_cookie('notebook_access_token', access_token, httponly=True)
     return {"access_token": access_token}
+
+
+@router.post("/logout")
+async def logout_user(response: Response):
+    response.delete_cookie('notebook_access_token')
+    return "Вы вышли из системы"
+
+
+@router.get("/me")
+async def read_users_me(current_user: Users = Depends(get_current_user)):
+    return current_user
+
+
+@router.get("/all_users")
+async def read_users_all(current_user: Users = Depends(get_current_admin_user)):
+    return await UsersDAO.find_all()

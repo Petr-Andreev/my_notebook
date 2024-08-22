@@ -1,6 +1,7 @@
-from fastapi import APIRouter
-from app.subtasks.schemas import SSubTask
+from fastapi import APIRouter, Depends
 from app.subtasks.service import SubTaskService
+from app.tasks.router import get_tasks_me
+from app.tasks.tasks import Tasks
 
 router = APIRouter(
     prefix='/subtasks',
@@ -8,6 +9,6 @@ router = APIRouter(
 )
 
 
-@router.get("")
-async def get_subtasks() -> list[SSubTask]:
+@router.get("/me")
+async def get_subtasks(tasks: Tasks = Depends(get_tasks_me)):
     return await SubTaskService.find_all()
