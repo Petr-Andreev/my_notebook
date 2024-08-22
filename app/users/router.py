@@ -41,11 +41,11 @@ async def logout_user(response: Response):
     return "Вы вышли из системы"
 
 
-@router.get("/me")
+@router.get("/my_info")
 async def read_users_me(current_user: Users = Depends(get_current_user)):
     return current_user
 
 
-@router.get("/all_users")
+@router.get("/all_users_info")
 async def read_users_all(current_user: Users = Depends(get_current_admin_user)):
     return await UsersDAO.find_all()
