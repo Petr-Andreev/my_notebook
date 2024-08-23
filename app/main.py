@@ -133,27 +133,3 @@ tasks_list = [
         ]
     ),
 ]
-
-
-@app.get("/tasks_2")
-def get_tasks_2(user_id: int, title: Optional[str] = None, priority: Optional[str] = None) -> List[STask]:
-    # Фильтрация задач по user_id
-    filtered_tasks = [task for task in tasks_list if task.user_id == user_id]
-
-    # Дополнительно фильтруем по названию задачи, чтобы посмотреть подзадачи этой задачи
-    if title:
-        filtered_tasks = [task for task in tasks_list if task.title == title]
-    # Если задан приоритет, фильтруем дополнительно
-    if priority:
-        filtered_tasks = [task for task in filtered_tasks if task.priority == priority]
-
-    return filtered_tasks
-
-
-@app.post("/add_task")
-def add_task(task: STask):
-    pass
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)

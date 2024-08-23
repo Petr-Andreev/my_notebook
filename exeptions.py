@@ -41,3 +41,8 @@ class UserIsNotPresentException(MyNotebookException):
 class UserDntHaveAccessException(MyNotebookException):
     status_code = status.HTTP_403_FORBIDDEN
     detail = 'Нет прав на просмотр'
+
+
+class TaskAlreadyExistsException(MyNotebookException):
+    status_code = status.HTTP_409_CONFLICT
+    detail = 'Задача с таким названием уже существует'
